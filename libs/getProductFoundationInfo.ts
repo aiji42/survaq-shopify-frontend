@@ -30,7 +30,7 @@ export const getProductFoundationInfo = async (
   });
 
   const [[bq]] = await bigQueryClient.query({
-    query: sql.format(query, [productId]),
+    query: sql.format(query, [Number(productId)]),
   });
 
   return {

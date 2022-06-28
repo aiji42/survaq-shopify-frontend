@@ -1,7 +1,13 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { getProductFoundationInfo } from "../libs/getProductFoundationInfo";
+import styles from "../styles/fundings.module.scss";
+import classnames from "classnames";
 
-type Props = Required<Product["foundation"]>;
+type Props = {
+  totalPrice: string;
+  supporter: string;
+  status: string;
+};
 
 export const getStaticPaths: GetStaticPaths = () => {
   return {
@@ -18,16 +24,51 @@ export const getStaticProps: GetStaticProps<
   if (!productId || !Number.isInteger(Number(productId)))
     return { notFound: true };
 
-  const props = await getProductFoundationInfo(productId);
+  const data = await getProductFoundationInfo(productId);
+  const remainDays = Math.ceil(
+    (new Date(data.closeOn).getTime() - new Date().getTime()) / 86400000
+  );
 
   return {
-    props,
+    props: {
+      totalPrice: data.totalPrice.toLocaleString("JP", {
+        style: "currency",
+        currency: "JPY",
+      }),
+      supporter: data.supporter.toLocaleString(),
+      status:
+        remainDays === 0
+          ? "最終日"
+          : remainDays < 0
+          ? "販売中"
+          : `${remainDays}日`,
+    },
     revalidate: 30 * 60,
   };
 };
 
 const Home: NextPage<Props> = (props) => {
-  return <>{JSON.stringify(props)}</>;
+  return (
+    <div className={styles.fundingWrapper}>
+      <div className={styles.fundingItem__main}>
+        <p className={styles.fundingItem__main__label}>累計販売金額</p>
+        <p className={styles.fundingItem__main__text}>{props.totalPrice}</p>
+      </div>
+      <div className={styles.fundingItem__sub}>
+        <p className={styles.fundingItem__sub_label}>購入者数</p>
+        <p className={styles.fundingItem__sub_text}>{props.supporter}人</p>
+      </div>
+      <div
+        className={classnames([
+          styles.fundingItem__sub,
+          styles.fundingItem__sub__border,
+        ])}
+      >
+        <p className={styles.fundingItem__sub_label}>ステータス</p>
+        <p className={styles.fundingItem__sub_text}>{props.status}</p>
+      </div>
+    </div>
+  );
 };
 
 export default Home;
