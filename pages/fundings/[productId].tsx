@@ -1,6 +1,6 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import { getProductFoundationInfo } from "../libs/getProductFoundationInfo";
-import styles from "../styles/fundings.module.scss";
+import { getProductFundingInfo } from "../../libs/getProductFundingInfo";
+import styles from "../../styles/fundings.module.scss";
 import classnames from "classnames";
 
 type Props = {
@@ -25,7 +25,7 @@ export const getStaticProps: GetStaticProps<
     return { notFound: true };
 
   try {
-    const data = await getProductFoundationInfo(productId);
+    const data = await getProductFundingInfo(productId);
     const remainDays = Math.ceil(
       (new Date(data.closeOn).getTime() - new Date().getTime()) / 86400000
     );

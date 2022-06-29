@@ -2,7 +2,7 @@ import { BigQuery } from "@google-cloud/bigquery";
 import { createClient } from "microcms-js-sdk";
 import sql from "sqlstring";
 
-export const getProductFoundationInfo = async (
+export const getProductFundingInfo = async (
   productId: string
 ): Promise<Required<Product["foundation"]>> => {
   const credentials = JSON.parse(
