@@ -24,30 +24,40 @@ export const getStaticProps: GetStaticProps<
   if (!productId || !Number.isInteger(Number(productId)))
     return { notFound: true };
 
-  const data = await getProductFoundationInfo(productId);
-  const remainDays = Math.ceil(
-    (new Date(data.closeOn).getTime() - new Date().getTime()) / 86400000
-  );
+  try {
+    const data = await getProductFoundationInfo(productId);
+    const remainDays = Math.ceil(
+      (new Date(data.closeOn).getTime() - new Date().getTime()) / 86400000
+    );
 
-  return {
-    props: {
-      totalPrice: data.totalPrice.toLocaleString("JP", {
-        style: "currency",
-        currency: "JPY",
-      }),
-      supporter: data.supporter.toLocaleString(),
-      status:
-        remainDays === 0
-          ? "最終日"
-          : remainDays < 0
-          ? "販売中"
-          : `${remainDays}日`,
-    },
-    revalidate: 30 * 60,
-  };
+    return {
+      props: {
+        totalPrice: data.totalPrice.toLocaleString("JP", {
+          style: "currency",
+          currency: "JPY",
+        }),
+        supporter: `${data.supporter.toLocaleString()}人`,
+        status:
+          remainDays === 0
+            ? "最終日"
+            : remainDays < 0
+            ? "販売中"
+            : `${remainDays}日`,
+      },
+      revalidate: 30 * 60,
+    };
+  } catch (e) {
+    return {
+      props: {
+        totalPrice: "-",
+        supporter: "-",
+        status: "-",
+      },
+    };
+  }
 };
 
-const Home: NextPage<Props> = (props) => {
+const Page: NextPage<Props> = (props) => {
   return (
     <div className={styles.fundingWrapper}>
       <div className={styles.fundingItem__main}>
@@ -56,7 +66,7 @@ const Home: NextPage<Props> = (props) => {
       </div>
       <div className={styles.fundingItem__sub}>
         <p className={styles.fundingItem__sub_label}>購入者数</p>
-        <p className={styles.fundingItem__sub_text}>{props.supporter}人</p>
+        <p className={styles.fundingItem__sub_text}>{props.supporter}</p>
       </div>
       <div
         className={classnames([
@@ -71,4 +81,4 @@ const Home: NextPage<Props> = (props) => {
   );
 };
 
-export default Home;
+export default Page;
