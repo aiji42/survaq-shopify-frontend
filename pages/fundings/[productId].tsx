@@ -1,5 +1,5 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import { getProductFundingInfo } from "../../libs/getProductFundingInfo";
+import { getProductFundingInfo } from "@/libs/getProductFundingInfo";
 import styles from "../../styles/fundings.module.scss";
 import classnames from "classnames";
 
