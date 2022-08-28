@@ -36,7 +36,6 @@ export const getProductFundingInfo = async (
   return {
     ...product.foundation,
     supporter: (product.foundation.supporter ?? 0) + (bq?.supporters ?? 0),
-    objectivePrice: product.foundation.objectivePrice ?? 0,
     totalPrice: (product.foundation.totalPrice ?? 0) + (bq?.price ?? 0),
   };
 };

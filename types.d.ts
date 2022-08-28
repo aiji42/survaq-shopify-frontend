@@ -1,6 +1,5 @@
 declare type Foundation = {
   fieldId: string
-  objectivePrice: number
   totalPrice: number
   closeOn: string
   supporter?: number
@@ -9,7 +8,6 @@ declare type Foundation = {
 declare type Rule = {
   fieldId: string
   leadDays: number
-  bulkPurchase: number
   cyclePurchase: {
     value: 'monthly' | 'triple'
     label: string
