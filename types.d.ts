@@ -16,7 +16,6 @@ declare type Rule = {
     beginOn: string
     endOn: string
     deliverySchedule: string
-    purchaseSchedule: string
   }>
 }
 
