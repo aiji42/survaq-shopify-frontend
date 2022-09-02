@@ -40,11 +40,7 @@ const handler: NextApiHandler = async (req, res) => {
     ...cmsRes,
     rule: {
       ...cmsRes.rule,
-      schedule: makeSchedule(
-        cmsRes.rule.leadDays,
-        cmsRes.rule.cyclePurchase.value,
-        cmsRes.rule.customSchedules
-      ),
+      schedule: makeSchedule(cmsRes.rule.customSchedules),
     },
   };
 

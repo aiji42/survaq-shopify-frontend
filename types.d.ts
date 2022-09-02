@@ -7,11 +7,6 @@ declare type Foundation = {
 
 declare type Rule = {
   fieldId: string
-  leadDays: number
-  cyclePurchase: {
-    value: 'monthly' | 'triple'
-    label: string
-  }
   customSchedules: Array<{
     beginOn: string
     endOn: string

@@ -1,9 +1,11 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import isBetween from "dayjs/plugin/isBetween";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault("Asia/Tokyo");
+dayjs.extend(isBetween);
 
 export type Schedule = {
   year: number;
@@ -15,13 +17,15 @@ export type Schedule = {
 };
 
 export const makeSchedule = (
-  leadDays: number,
-  cycle: Rule["cyclePurchase"]["value"],
   customSchedules: Rule["customSchedules"]
 ): Schedule => {
-  const customSchedule = customSchedules.find(({ beginOn, endOn }) => {
-    return dayjs(beginOn) <= dayjs() && dayjs() < dayjs(endOn).add(1, "day");
-  });
+  const customSchedule = customSchedules.find(({ beginOn, endOn }) =>
+    dayjs().isBetween(
+      dayjs(beginOn).startOf("date"),
+      dayjs(endOn).endOf("date")
+    )
+  );
+
   if (customSchedule) {
     const [year, month, term] = customSchedule.deliverySchedule.split("-");
     return {
@@ -47,7 +51,7 @@ export const makeSchedule = (
       }`,
     };
   }
-  const date = dayjs().tz().add(leadDays, "day");
+  const date = dayjs().tz();
   let year = date.year();
   const day = date.date();
   let month = date.month() + 1 + (28 <= day ? 1 : 0);
@@ -57,35 +61,24 @@ export const makeSchedule = (
   }
   const dayOfMonth = dayjs(new Date(year, month - 1, day)).daysInMonth();
 
-  if (cycle === "triple") {
-    const [term, termText, beginDate, endDate]: [
-      Schedule["term"],
-      string,
-      number,
-      number
-    ] =
-      28 <= day || day <= 7
-        ? ["early", "上旬", 1, 10]
-        : 8 <= day && day <= 17
-        ? ["middle", "中旬", 11, 20]
-        : ["late", "下旬", 21, dayOfMonth];
-    return {
-      year,
-      month,
-      term,
-      text: `${year}年${month}月${termText}`,
-      texts: createScheduleTextArray({ year, month, term }),
-      subText: `${month}/${beginDate}〜${month}/${endDate}`,
-    };
-  }
-
+  const [term, termText, beginDate, endDate]: [
+    Schedule["term"],
+    string,
+    number,
+    number
+  ] =
+    28 <= day || day <= 7
+      ? ["early", "上旬", 1, 10]
+      : 8 <= day && day <= 17
+      ? ["middle", "中旬", 11, 20]
+      : ["late", "下旬", 21, dayOfMonth];
   return {
     year,
     month,
-    term: "late",
-    text: `${year}年${month}月下旬`,
-    texts: createScheduleTextArray({ year, month }),
-    subText: `${month}/${21}〜${month}/${dayOfMonth}`,
+    term,
+    text: `${year}年${month}月${termText}`,
+    texts: createScheduleTextArray({ year, month, term }),
+    subText: `${month}/${beginDate}〜${month}/${endDate}`,
   };
 };
 
