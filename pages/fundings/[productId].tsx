@@ -1,5 +1,4 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import { getProductFundingInfo } from "@/libs/getProductFundingInfo";
 import styles from "../../styles/fundings.module.scss";
 import classnames from "classnames";
 
@@ -25,18 +24,21 @@ export const getStaticProps: GetStaticProps<
     return { notFound: true };
 
   try {
-    const data = await getProductFundingInfo(productId);
+    const data: Product = await fetch(
+      `https://survaq-api-production.aiji422990.workers.dev/products/${productId}`
+    ).then((res) => res.json());
     const remainDays = Math.ceil(
-      (new Date(data.closeOn).getTime() - new Date().getTime()) / 86400000
+      (new Date(data.foundation.closeOn).getTime() - new Date().getTime()) /
+        86400000
     );
 
     return {
       props: {
-        totalPrice: data.totalPrice.toLocaleString("JP", {
+        totalPrice: data.foundation.totalPrice.toLocaleString("JP", {
           style: "currency",
           currency: "JPY",
         }),
-        supporter: `${data.supporter.toLocaleString()}人`,
+        supporter: `${data.foundation.supporter.toLocaleString()}人`,
         status:
           remainDays === 0
             ? "最終日"
