@@ -46,7 +46,7 @@ export const getStaticProps: GetStaticProps<
             ? "販売中"
             : `${remainDays}日`,
       },
-      revalidate: 30 * 60,
+      revalidate: 3600,
     };
   } catch (e) {
     return {
