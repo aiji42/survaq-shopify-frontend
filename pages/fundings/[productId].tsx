@@ -55,6 +55,7 @@ export const getStaticProps: GetStaticProps<
         supporter: "-",
         status: "-",
       },
+      revalidate: 180,
     };
   }
 };
