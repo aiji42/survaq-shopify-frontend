@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  assetPrefix:
+    process.env.VERCEL_ENV === "production"
+      ? `https://${process.env.VERCEL_URL}`
+      : "",
   async headers() {
     return [
       {
