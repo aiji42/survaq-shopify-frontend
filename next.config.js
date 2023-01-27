@@ -4,7 +4,7 @@ const nextConfig = {
   assetPrefix:
     process.env.VERCEL_ENV === "production"
       ? `https://${process.env.VERCEL_URL}`
-      : "",
+      : undefined,
   async headers() {
     return [
       {
@@ -16,6 +16,9 @@ const nextConfig = {
       },
     ];
   },
+  experimental: {
+    appDir: true
+  }
 };
 
 module.exports = nextConfig;
