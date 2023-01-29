@@ -1,7 +1,7 @@
 import { Fundings } from "@/app/fundings/[productId]/Fundings";
 import { notFound } from "next/navigation";
 
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 type Props = {
   params: { productId: string };
