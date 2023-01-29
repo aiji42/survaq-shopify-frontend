@@ -10,7 +10,10 @@ type Props = {
 const getFundingsProps = async (id: string) => {
   try {
     const data: Product = await fetch(
-      `https://api.survaq.com/products/${id}`
+      `https://survaq-api-production.survaq.workers.dev/products/${id}`,
+      {
+        next: { revalidate: 3600 },
+      }
     ).then((res) => res.json());
     const remainDays = Math.ceil(
       (new Date(data.foundation.closeOn).getTime() - new Date().getTime()) /
