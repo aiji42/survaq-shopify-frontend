@@ -1,6 +1,5 @@
 import { Fundings } from "@/app/fundings/[productId]/Fundings";
 import { notFound } from "next/navigation";
-import * as process from "process";
 
 export const dynamic = "force-dynamic";
 export const runtime = "experimental-edge";
@@ -9,25 +8,28 @@ type Props = {
   params: { productId: string };
 };
 
+type Funding = {
+  totalPrice: number;
+  closeOn: string;
+  supporters: number;
+};
+
 const getFundingsProps = async (id: string) => {
   try {
-    const data: Product = await fetch(
-      `${process.env.SURVAQ_API_ORIGIN}/products/${id}`,
-      {
-        next: { revalidate: 3600 },
-      }
+    const data: Funding = await fetch(
+      `${process.env.SURVAQ_API_ORIGIN}/products/${id}/funding`
     ).then((res) => res.json());
+
     const remainDays = Math.ceil(
-      (new Date(data.foundation.closeOn).getTime() - new Date().getTime()) /
-        86400000
+      (new Date(data.closeOn).getTime() - new Date().getTime()) / 86400000
     );
 
     return {
-      totalPrice: data.foundation.totalPrice.toLocaleString("JP", {
+      totalPrice: data.totalPrice.toLocaleString("JP", {
         style: "currency",
         currency: "JPY",
       }),
-      supporter: `${data.foundation.supporter.toLocaleString()}人`,
+      supporter: `${data.supporters.toLocaleString()}人`,
       status:
         remainDays === 0
           ? "最終日"
