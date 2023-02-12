@@ -16,9 +16,12 @@ const nextConfig = {
       },
     ];
   },
+  env: {
+    SURVAQ_API_ORIGIN: process.env.SURVAQ_API_ORIGIN,
+  },
   experimental: {
-    appDir: true
-  }
+    appDir: true,
+  },
 };
 
 module.exports = nextConfig;
