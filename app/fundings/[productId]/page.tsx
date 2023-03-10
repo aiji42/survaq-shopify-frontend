@@ -1,9 +1,6 @@
 import { Fundings } from "@/app/fundings/[productId]/Fundings";
 import { notFound } from "next/navigation";
 
-export const dynamic = "force-dynamic";
-export const runtime = "experimental-edge";
-
 type Props = {
   params: { productId: string };
 };
@@ -17,7 +14,8 @@ type Funding = {
 const getFundingsProps = async (id: string) => {
   try {
     const data: Funding = await fetch(
-      `${process.env.SURVAQ_API_ORIGIN}/products/${id}/funding`
+      `${process.env.SURVAQ_API_ORIGIN}/products/${id}/funding`,
+      { cache: "no-store" }
     ).then((res) => res.json());
 
     const remainDays = Math.ceil(
