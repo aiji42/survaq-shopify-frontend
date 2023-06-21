@@ -1,0 +1,81 @@
+.textCenter {
+  text-align: center;
+}
+
+.borderTopBottom {
+  border-bottom: 3px double #333;
+  border-top: 3px double #333;
+}
+
+.fontBold {
+  font-weight: bold;
+}
+
+.message {
+  color: #333;
+  display: block;
+  font-size: 15px;
+  @extend .textCenter, .borderTopBottom, .fontBold;
+  padding: 4px;
+  margin: 4px 0 5px;
+  & span {
+    display: inline-block;
+  }
+}
+
+.table {
+  width: 100%;
+  font-size: 13px;
+  @extend .fontBold;
+  tr {
+    th {
+      background: #aaa;
+      padding: 8px;
+      color: white;
+      @extend .textCenter;
+      vertical-align:middle;
+      border-top: white solid 1px;
+      border-bottom: white solid 1px;
+    }
+    &:first-child {
+      th {
+        border-top: #aaa solid 1px;
+      }
+    }
+    &:last-child {
+      th {
+        border-bottom: #aaa solid 1px;
+      }
+    }
+    td {
+      padding: 5px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #333;
+      @extend .textCenter;
+      vertical-align:middle;
+      border-top: #aaa solid 1px;
+      border-bottom: #aaa solid 1px;
+    }
+  }
+}
+
+.rowHead {
+  width: 100px;
+  min-width: 150px;
+}
+@media (min-width: 500px) {
+  .rowHead {
+    width: 200px;
+  }
+}
+
+.icon {
+  font-size: 24px;
+  color: red;
+  margin: 0;
+}
+
+.schedule {
+  font-size: 12px;
+}
