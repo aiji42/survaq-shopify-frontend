@@ -1,4 +1,6 @@
 import styles from "../../../styles/schedule.module.scss";
+import { IframeResize } from "@/app/schedules/[productId]/IframeResizer";
+
 export const runtime = "experimental-edge";
 
 const getScheduleProps = async (
@@ -32,7 +34,7 @@ type Props = {
 
 export default async function Page({ params: { productId } }: Props) {
   const props = await getScheduleProps(productId);
-  if (!props || props.skus.length < 1) return null;
+  if (!props || props.skus.length < 1) return <IframeResize />;
 
   return (
     <>
@@ -59,6 +61,7 @@ export default async function Page({ params: { productId } }: Props) {
           ))}
         </tbody>
       </table>
+      <IframeResize />
     </>
   );
 }
