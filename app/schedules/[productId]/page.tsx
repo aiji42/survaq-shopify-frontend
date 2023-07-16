@@ -61,6 +61,7 @@ export default async function Page({ params: { productId } }: Props) {
           ))}
         </tbody>
       </table>
+      <p className={styles.annotation}>◎：在庫あり｜△：残りわずか｜×：完売</p>
       <IframeResize />
     </>
   );

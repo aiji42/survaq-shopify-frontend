@@ -14,6 +14,7 @@
 .message {
   color: #333;
   display: block;
+  font-family: Zen Kaku Gothic Antique,sans-serif;
   font-size: 15px;
   @extend .textCenter, .borderTopBottom, .fontBold;
   padding: 4px;
@@ -77,5 +78,11 @@
 }
 
 .schedule {
+  font-size: 12px;
+}
+
+.annotation {
+  margin: 5px 0;
+  text-align: center;
   font-size: 12px;
 }
