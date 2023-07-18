@@ -37,7 +37,7 @@ export default async function Page({ params: { productId } }: Props) {
   if (!props || props.skus.length < 1) return <IframeResize />;
 
   return (
-    <>
+    <div className={styles.wrapper}>
       <p className={styles.message}>
         <span>下記商品はつきましては、</span>
         <span>{props.current.text.slice(5)}発送分の在庫が完売のため</span>
@@ -63,6 +63,6 @@ export default async function Page({ params: { productId } }: Props) {
       </table>
       <p className={styles.annotation}>◎：在庫あり｜△：残りわずか｜×：完売</p>
       <IframeResize />
-    </>
+    </div>
   );
 }
