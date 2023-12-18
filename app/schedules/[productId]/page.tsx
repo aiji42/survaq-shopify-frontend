@@ -1,7 +1,7 @@
 import styles from "../../../styles/schedule.module.scss";
 import { IframeResize } from "@/app/schedules/[productId]/IframeResizer";
 
-export const runtime = "experimental-edge";
+// export const runtime = "experimental-edge";
 
 const getScheduleProps = async (
   id: string

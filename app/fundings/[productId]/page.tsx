@@ -1,7 +1,7 @@
 import { Fundings } from "@/app/fundings/[productId]/Fundings";
 import { notFound } from "next/navigation";
 
-export const runtime = "experimental-edge";
+// export const runtime = "experimental-edge";
 
 type Props = {
   params: { productId: string };
